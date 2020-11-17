@@ -30,11 +30,17 @@ form.addEventListener('submit', function(e) {
         // Anropar funktion med argumenten jag vill få fram på sidan
         insertContent(inputValue, des, iconCode, temp, wind, hum);
 
+        // function to change background img depending om temperature 
+        changeBackground(temp); 
+
     })
     // Handling error if someone enters a city that doesnt exist. 
     .catch((err) => {
         handleError(); 
         
+        // resetting backgroundImage to original 
+        let temp = 'error'
+        changeBackground(temp); 
     })
 
     // Emptying the input so that we can enter a new city
@@ -90,4 +96,27 @@ function handleError(){
         // resetting description text
         const description = document.querySelector('.description-text')
         description.innerText = ''; 
+}
+
+// changing background depending on temperature
+function changeBackground(temp){
+
+    let background = document.querySelector('.container')
+
+    if (temp < 0) {
+        background.style.backgroundImage = 'url(img/snow.jpg)'; 
+    }
+    if (temp > 0 && temp < 10) {
+        background.style.backgroundImage = 'url(/img/clouds.jpg)'; 
+    } 
+    else if (temp > 10 && temp < 20) {
+        background.style.backgroundImage = 'url(/img/sunset.jpg)'; 
+    } 
+    else if (temp > 20) {
+        background.style.backgroundImage = 'url(/img/sunsky.jpg)'; 
+    }
+    else if (temp === 'error') {
+        background.style.backgroundImage = 'url(/img/sky.jpg)'; 
+    }
+
 }
