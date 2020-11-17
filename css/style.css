@@ -1,0 +1,121 @@
+*{
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.container{
+    max-width: 1000px; 
+    height: 100vh; 
+    margin: 0 auto; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    background: url(/img/sky.jpg) no-repeat center/cover; 
+}
+
+.top-header{
+    width: 100%;
+    height: 8rem; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+}
+
+.main-header{
+    width: 100%; 
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+
+h1{
+    font-size: 3rem;
+    color: white; 
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+form{
+    margin: 1rem 0 3rem; 
+    display: flex; 
+}
+
+input{
+    padding: 0.5rem; 
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.btn{
+    padding: 0.5rem; 
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: white; 
+    border-radius: 0.5rem;
+}
+
+.result{
+    display: flex; 
+    text-align: center; 
+    justify-content: center;
+    padding: 2rem; 
+    background: white; 
+    border-radius: 10px;
+    opacity: 0.7; 
+    /* box-shadow: 0px 0px 10px 10px yellow;   */
+}
+
+
+h2{
+    margin: 0 1.5rem; 
+    font-size: 1rem; 
+}
+
+.icon-img{
+    width: 150px; 
+}
+
+.temp-container{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.temp-text{
+    font-size: 4rem; 
+    margin-top: 1rem; 
+}
+
+.weather-data{
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+p{
+    font-size: 1.2rem; 
+    font-weight: 200;
+}
+
+.city{
+    font-size: 2rem; 
+}
+.description-text{
+    font-size: 1rem;
+}
+
+.wind-text, .humidity-text{
+    margin-top: 1rem; 
+}
+
+.data{
+    display: none; 
+}

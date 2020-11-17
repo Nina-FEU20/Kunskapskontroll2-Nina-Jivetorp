@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="top-header">
+            <h1>Weather App</h1>
+        </div>
+        <header class="main-header">
+            <form>
+                <input type="text" id='input-value' placeholder="Enter City">
+                <button class="btn">SEARCH</button> -
+            </form>
+            <div class='result'>
+                <div class='first-result'>
+                    <h2 class='city'>Search to see the weather <br> wherever you want in the world!</h2>
+                <h2 class='icon'></h2>
+                <img src="img/earthglobe.jpg" alt="" class="icon-img"> 
+                <p class="description-text"></p>
+                </div>
+                <div class="temp-container">
+                    <h2 class='temp data'>Temperature
+                        <p class="temp-text"></p>
+                    </h2> 
+                </div>
+                <div class="weather-data">
+                    <h2 class='wind data'>WindSpeed
+                        <p class="wind-text"></p>
+                    </h2>
+                    <h2 class='humidity data'>Humidity
+                        <p class="humidity-text"></p>
+                    </h2> 
+                </div> 
+            </div>
+        </header>
+    </div>
+    <script src='app.js'></script>
+</body>
+</html>
