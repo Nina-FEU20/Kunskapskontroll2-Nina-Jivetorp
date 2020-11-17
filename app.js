@@ -26,12 +26,19 @@ form.addEventListener('submit', function(e) {
         let temp = data.main.temp; 
         let wind = data.wind.speed; 
         let hum = data.main.humidity; 
-        
+
         // Anropar funktion med argumenten jag vill få fram på sidan
         insertContent(inputValue, des, iconCode, temp, wind, hum);
 
         // function to change background img depending om temperature 
         changeBackground(temp); 
+
+        // compare with another city
+        compare(inputValue, des, temp, wind, hum); 
+
+        // Shows the input  the compare city! 
+        let compareContainer = document.querySelector('.compare-container');
+        compareContainer.style.display = 'block'; 
 
     })
     // Handling error if someone enters a city that doesnt exist. 
@@ -41,6 +48,13 @@ form.addEventListener('submit', function(e) {
         // resetting backgroundImage to original 
         let temp = 'error'
         changeBackground(temp); 
+
+        let compareContainer = document.querySelector('.compare-container');
+        compareContainer.style.display = 'none'; 
+
+        let compareText = document.querySelector('.compare-results');
+        compareText.innerText = ''; 
+
     })
 
     // Emptying the input so that we can enter a new city
@@ -98,6 +112,8 @@ function handleError(){
         description.innerText = ''; 
 }
 
+
+
 // changing background depending on temperature
 function changeBackground(temp){
 
@@ -119,4 +135,84 @@ function changeBackground(temp){
         background.style.backgroundImage = 'url(/img/sky.jpg)'; 
     }
 
+}
+
+
+
+// compare function 
+function compare(c, d, t, w, h){
+
+    // reset the text everytime the user search for a new city(first one)
+    let compareText = document.querySelector('.compare-results');
+        compareText.innerText = ''; 
+
+    let secondForm = document.querySelector('.second-form');
+    let compareInput = document.querySelector('.compareInput')
+    
+    // adding eventlistener to second form
+    secondForm.addEventListener('submit', function(e){
+        e.preventDefault();
+
+        // url with the user input, the city they want to compare
+        let secondInput = compareInput.value; 
+
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${secondInput}&units=metric&appid=63914e6a8dba041f35834506c757975b`
+
+
+    fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+
+        // assigning the values to new variables
+        let desCompare = data.weather[0].description;  
+        let tempCompare = data.main.temp; 
+        let windCompare = data.wind.speed; 
+        let humCompare = data.main.humidity;
+        
+        // Compare temperature
+        let tempResult; 
+        if (tempCompare > t) {
+            tempResult = `The temperature is ${(tempCompare - t).toFixed(2)}°C warmer in ${secondInput}`; 
+        } 
+        else if (tempCompare < t) {
+            tempResult = `The temperature is ${(t - tempCompare).toFixed(2)}°C warmer in ${c}`
+        }
+        else if (tempCompare === t) {
+            tempResult = `The temperature is the same in both cities!`
+        }
+
+
+        // Compare Humitidy 
+        let humResult; 
+        if (humCompare > h) {
+            humResult = `The humidity is ${humCompare - h}% higher in ${secondInput}`; 
+        } 
+        else if (humCompare < h) {
+            humResult = `The humidity is ${h - humCompare}% higher in ${c}`
+        } 
+        else if (humCompare === h) {
+            humResult = `The humidity is the same in both cities!`
+        }
+
+
+        // putting togther the comparision text to show the user
+        let compareString = `In ${secondInput} the description is "${desCompare}"\n while in ${c} it is "${d}". \n${tempResult}. \n The windspeed in ${secondInput} is ${windCompare}m/s, whilst in ${c} it is ${w}m/s. \n ${humResult}.`
+
+        // adding the text to the DOM
+        let compareText = document.querySelector('.compare-results');
+        compareText.innerText = compareString; 
+
+        // emptying input
+        compareInput.value = ''; 
+
+        })
+        .catch((err) => {
+            // If there is no city with entered name, show this message
+            let compareText = document.querySelector('.compare-results');
+            compareText.innerText = 'There is no city with this name! Try again'; 
+        }) 
+
+    })
+
+    
 }

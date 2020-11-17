@@ -12,7 +12,7 @@
             <h1>Weather App</h1>
         </div>
         <header class="main-header">
-            <form>
+            <form class='first-form'>
                 <input type="text" id='input-value' placeholder="Enter City">
                 <button class="btn">SEARCH</button> -
             </form>
@@ -38,6 +38,15 @@
                 </div> 
             </div>
         </header>
+        <section class='compare-container'>
+            <h4 class='compare-title'>Want to compare the weather with another city? </h4>
+            <form class='second-form'>
+                <input type="text" class='compareInput' placeholder="Enter City">
+                <button class="btn compare-btn">COMPARE</button>
+            </form>
+            <p class='compare-cities'></p>
+            <p class='compare-results'></p>
+        </section>
     </div>
     <script src='app.js'></script>
 </body>
