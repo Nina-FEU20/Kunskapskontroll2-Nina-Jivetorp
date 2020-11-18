@@ -1,59 +1,62 @@
-// hämtar form, input & button 
+// getting form, input & button 
 const form = document.querySelector('form'); 
 const input = document.querySelector('input')
 const button = document.querySelector('.btn'); 
 
 const apiKey = '63914e6a8dba041f35834506c757975b'
 
-// skapar eventlistener med submit 
+// creating eventlistener with submit event
 form.addEventListener('submit', function(e) {
     e.preventDefault(); 
     
-    // Lägger användaren inputen i en variabel för att sedan använda i URL'en
+    //Putting the users input into a variable that I can use in the URL. 
     let inputValue = input.value; 
 
     let url = `http://api.openweathermap.org/data/2.5/weather?q=${inputValue}&units=metric&appid=${apiKey}`
 
-    // använder mig av fetch för att returnera ett promise, 
-    // sedan json() för att göra om informationen till ett javascript-objekt. 
+    // fetching the information from the API, returning a promise 
     fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+          
+        // errorhandling 
+        if (response.status >= 200 && response.status < 300){
+            return response.json()
+        } 
+        else if (response.status === 404) {
+            throw 'City could not be found, try again!'
+        } 
+        else if (response.status === 401) {
+            throw response.statusText; 
+        } 
+
+    })
     .then((data) => {
         
-        // tilldelar all information jag vill ha varsin variabel
+        // creating variables and assigning them the values that I want to display to the user
         let des = data.weather[0].description; 
         let iconCode = data.weather[0].icon; 
         let temp = data.main.temp; 
         let wind = data.wind.speed; 
         let hum = data.main.humidity; 
 
-        // Anropar funktion med argumenten jag vill få fram på sidan
+        // Calling the function that puts all information on the website, with above variables as arguments
         insertContent(inputValue, des, iconCode, temp, wind, hum);
 
-        // function to change background img depending om temperature 
-        changeBackground(temp); 
+        // function to change background img depending on temperature 
+        changeBackground(temp);
+         
 
-        // compare with another city
+        // function to be able to compare with another city
         compare(inputValue, des, temp, wind, hum); 
-
-        // Shows the input  the compare city! 
-        let compareContainer = document.querySelector('.compare-container');
-        compareContainer.style.display = 'block'; 
 
     })
     // Handling error if someone enters a city that doesnt exist. 
     .catch((err) => {
-        handleError(); 
+        handleError(err); 
         
         // resetting backgroundImage to original 
         let temp = 'error'
         changeBackground(temp); 
-
-        let compareContainer = document.querySelector('.compare-container');
-        compareContainer.style.display = 'none'; 
-
-        let compareText = document.querySelector('.compare-results');
-        compareText.innerText = ''; 
 
     })
 
@@ -89,14 +92,16 @@ function insertContent(c, d, i, t, w, h){
 
 
 // function to handle errors
-function handleError(){
+function handleError(err){
     // Showing the user a message if they type a city that does not exist! 
-    let city = document.querySelector('.city'); 
-        city.innerText = 'There is no city with this name, try again!'
+    // let city = document.querySelector('.city'); 
+    //     city.innerText = 'There is no city with this name, try again!'
         
+        let city = document.querySelector('.city'); 
+        city.innerText = err;
+
         // getting temp, wind and humidity again, so they dont show as the same time as the error message
         let dataTitles = document.querySelectorAll('.data'); 
-        console.log(dataTitles); 
         
         for(let i = 0; i < dataTitles.length; i++) {
             dataTitles[i].style.display = 'none'; 
@@ -110,6 +115,12 @@ function handleError(){
         // resetting description text
         const description = document.querySelector('.description-text')
         description.innerText = ''; 
+
+        let compareContainer = document.querySelector('.compare-container');
+        compareContainer.style.display = 'none'; 
+
+        let compareText = document.querySelector('.compare-results');
+        compareText.innerText = ''; 
 }
 
 
@@ -142,6 +153,10 @@ function changeBackground(temp){
 // compare function 
 function compare(c, d, t, w, h){
 
+    // Shows a second input, where you can enter the city you would like to compare  
+    let compareContainer = document.querySelector('.compare-container');
+        compareContainer.style.display = 'block';
+
     // reset the text everytime the user search for a new city(first one)
     let compareText = document.querySelector('.compare-results');
         compareText.innerText = ''; 
@@ -156,11 +171,21 @@ function compare(c, d, t, w, h){
         // url with the user input, the city they want to compare
         let secondInput = compareInput.value; 
 
-        let url = `http://api.openweathermap.org/data/2.5/weather?q=${secondInput}&units=metric&appid=63914e6a8dba041f35834506c757975b`
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${secondInput}&units=metric&appid=${apiKey}`
 
 
     fetch(url)
-        .then((response) => response.json())
+        .then((response) => {
+            if (response.status >= 200 && response.status < 300){
+                return response.json()
+            } 
+            else if (response.status === 404) {
+                throw 'City could not be found, try again!'
+            } 
+            else if (response.status === 401) {
+                throw response.statusText; 
+            } 
+        })
         .then((data) => {
 
         // assigning the values to new variables
@@ -209,7 +234,7 @@ function compare(c, d, t, w, h){
         .catch((err) => {
             // If there is no city with entered name, show this message
             let compareText = document.querySelector('.compare-results');
-            compareText.innerText = 'There is no city with this name! Try again'; 
+            compareText.innerText = err; 
         }) 
 
     })
