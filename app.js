@@ -13,6 +13,7 @@ form.addEventListener('submit', function(e) {
     let inputValue = input.value; 
 
     let url = `http://api.openweathermap.org/data/2.5/weather?q=${inputValue}&units=metric&appid=${apiKey}`
+     console.log(url); 
 
     // fetching the information from the API, returning a promise 
     fetch(url)
@@ -88,6 +89,14 @@ function insertContent(c, d, i, t, w, h){
      temperature.innerText = t + '°C'; 
      windspeed.innerText = w + ' m/s'; 
      humidity.innerText = h + '%'; 
+
+     
+     async function scale(){
+        await animation(temperature, 1.5, 0);
+        await animation(temperature, 1, 1000); 
+    }
+    
+    scale(); 
 }
 
 
@@ -156,6 +165,13 @@ function compare(c, d, t, w, h){
     // Shows a second input, where you can enter the city you would like to compare  
     let compareContainer = document.querySelector('.compare-container');
         compareContainer.style.display = 'block';
+
+        async function scale(){
+            await animation(compareContainer, 2, 2000);
+            await animation(compareContainer, 1, 2000); 
+        }
+        
+        scale(); 
 
     // reset the text everytime the user search for a new city(first one)
     let compareText = document.querySelector('.compare-results');
@@ -239,5 +255,20 @@ function compare(c, d, t, w, h){
 
     })
 
-    
 }
+
+
+// Animation testing
+
+const animation = (element, num, delay) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            element.style.transform = `scale(${num})`; 
+            element.style.transition = `1s ease`;
+            resolve();
+        }, delay)
+    })
+}
+
+
+
