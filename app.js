@@ -11,6 +11,9 @@ form.addEventListener('submit', function (e) {
 
     //Putting the users input into a variable that I can use in the URL. 
     let inputValue = input.value;
+
+    // Making sure first letter of the city is always capital
+    inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1); 
     
     let dl = document.querySelector('dl'); 
     if (dl) {
@@ -207,6 +210,8 @@ function compare(c, d, t, w, h) {
         // url with the user input, the city they want to compare
         let secondInput = compareInput.value;
 
+        secondInput = secondInput.charAt(0).toUpperCase() + secondInput.slice(1); 
+
         let url = `http://api.openweathermap.org/data/2.5/weather?q=${secondInput}&units=metric&appid=${apiKey}`
 
 
@@ -255,10 +260,10 @@ function compare(c, d, t, w, h) {
                 //Compare Wind
                 let winResult; 
                 if(windCompare > w) {
-                    winResult = `The wind is ${windCompare - w}m/s faster in ${secondInput}`; 
+                    winResult = `The wind is ${(windCompare - w).toFixed(1)}m/s faster in ${secondInput}`; 
                 }
                 else if (windCompare < w){
-                    winResult = `The wind is ${w - windCompare}m/s faster in ${secondInput}`
+                    winResult = `The wind is ${(w - windCompare).toFixed(1)}m/s faster in ${secondInput}`
                 }
                 else if (windCompare === w) {
                     winResult = `The windspeed is the same in both cities!`
@@ -283,6 +288,8 @@ function compare(c, d, t, w, h) {
                 
 
                 // adding the text to the DOM
+                let compareCities = document.querySelector('.compare-cities'); 
+                compareCities.innerText = `${secondInput} vs ${c}`
                 let compareText = document.querySelector('.compare-results');
                 compareText.innerText = compareString;
 

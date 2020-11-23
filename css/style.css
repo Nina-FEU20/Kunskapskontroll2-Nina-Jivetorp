@@ -129,6 +129,8 @@ p{
     display: none; 
 }
 
+/* COMPARE STYLING */
+
 .compare-container{
     background: var(--main-color);  
     max-width: 40rem; 
@@ -147,8 +149,14 @@ p{
     text-align: center;
 }
 
+.compare-cities{
+    text-align: center;
+    padding-bottom: 1rem; 
+    font-weight: bold;
+}
 .compare-results{
     text-align: center;
+    font-size: 1rem;
 }
 
 .compareInput{
